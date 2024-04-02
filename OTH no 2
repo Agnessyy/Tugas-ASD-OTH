@@ -1,0 +1,39 @@
+#include <stdio.h> // Mendefinisikan header file unutk fungsi input-output standar
+
+int twoStacks(int maxSum, int a[], int n, int b[], int m) { // Fungsi twoStacks yang mengambil lima argumen. 'maxSum' merupakan batas jumlah maksimum yang diizinkan, 'a[]' array yang mewakili tumpukan A, 'n' ukuran tumpukan A, 'b[]' Array yang mewaakili tumpukan B, 'm' merupakan ukuran dari tumpukan B
+    int sum = 0, count = 0, temp = 0, i = 0, j = 0; // Untuk mendeklarasikan beberapa variabel lokal yang akan digunakan dalam fungsi
+
+    while (i < n && sum + a[i] <= maxSum) { // Melakukan iterasi melalui tumpukan A sampai batas maxSum tercapai
+        sum += a[i++];
+    }
+    count = i; // Menyimpan jumlah elemen yang telah diambil dari tumpukan A
+
+    while (j < m && i >= 0) { // Iterasi melalui tumpukan B, sementara memeriksa apakah jumlah dari kedua tumpukan tidak melebihi maxSum
+        sum += b[j++];
+        while (sum > maxSum && i > 0) {
+            sum -= a[--i];
+        }
+        if (sum <= maxSum && i + j > count) {
+            count = i + j;
+        }
+    }
+    return count; // Mengembalikan nilai 'count' yang merepresentasikan jumlah maksimum elemen yang dapat diambil dari kedua tumpukan melebihi maxSum
+}
+
+int main() {
+    int g; // Membaca jumlah kasus uji dan melakukan iterasi sebanyak jumlah kasus uji tersebut
+    scanf("%d", &g);
+    while (g--) {
+        int n, m, maxSum; // Unutk membaca ukuran tumpukan A, tumpukan B dan maxSum
+        scanf("%d%d%d", &n, &m, &maxSum);
+        int a[n], b[m];
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &a[i]);
+        }
+        for (int i = 0; i < m; i++) { // Membaca elemen-elemen tumpukan B
+            scanf("%d", &b[i]);
+        }
+        printf("%d\n", twoStacks(maxSum, a, n, b, m)); // Memanggil fungsi twoStacks untuk menemukan jumlah maksimum elemen yang dapat diambil dari kedua tumpukan, lalu mencetak hasilnya
+    }
+    return 0; // Mengembalikan nilai 0 untuk menandakan bahwa program telah berakhir
+}
